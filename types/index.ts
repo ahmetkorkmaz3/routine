@@ -1,14 +1,12 @@
+export type FrequencyType = 'day' | 'week' | 'month';
+
 export interface Task {
   id: string;
   title: string;
   frequency: {
-    type: 'day' | 'week' | 'month';
+    type: FrequencyType;
     value: number;
   };
   completedDates: string[];
-}
-
-export type FrequencyType = {
-  label: string;
-  value: 'day' | 'week' | 'month';
-}; 
+  isCompleted: boolean;
+} 

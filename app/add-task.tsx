@@ -4,6 +4,7 @@ import { router } from 'expo-router';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { Task, FrequencyType } from '../types';
 import { useThemeColor } from '../hooks/useThemeColor';
+import { scheduleTaskNotification } from '../utils/notificationUtils';
 
 const FREQUENCY_TYPES: FrequencyType[] = [
   { label: 'Gün', value: 'day' },
@@ -33,34 +34,37 @@ export default function AddTaskScreen() {
     }
   };
 
-  const saveTask = async () => {
+  const handleSave = async () => {
     if (!title.trim()) {
-      Alert.alert('Hata', 'Lütfen görev adını giriniz.');
+      Alert.alert('Hata', 'Lütfen görev başlığı girin.');
       return;
     }
 
-    const value = parseInt(frequencyValue, 10);
-    if (isNaN(value) || value < 1) {
-      Alert.alert('Hata', 'Lütfen geçerli bir sıklık değeri giriniz.');
+    if (!frequencyValue.trim() || parseInt(frequencyValue, 10) < 1) {
+      Alert.alert('Hata', 'Lütfen geçerli bir sıklık değeri girin.');
       return;
     }
 
     try {
-      const storedTasks = await AsyncStorage.getItem(STORAGE_KEY);
-      const currentTasks: Task[] = storedTasks ? JSON.parse(storedTasks) : [];
-      
       const newTask: Task = {
         id: Date.now().toString(),
         title: title.trim(),
         frequency: {
           type: selectedType,
-          value: value,
+          value: parseInt(frequencyValue, 10),
         },
         completedDates: [],
+        isCompleted: false,
       };
 
-      const updatedTasks = [...currentTasks, newTask];
-      await AsyncStorage.setItem(STORAGE_KEY, JSON.stringify(updatedTasks));
+      const existingTasks = await AsyncStorage.getItem(STORAGE_KEY);
+      const tasks = existingTasks ? JSON.parse(existingTasks) : [];
+      
+      await AsyncStorage.setItem(STORAGE_KEY, JSON.stringify([...tasks, newTask]));
+      
+      // Bildirim planla
+      await scheduleTaskNotification(newTask);
+
       router.back();
     } catch (error) {
       Alert.alert('Hata', 'Görev kaydedilirken bir hata oluştu.');
@@ -156,7 +160,7 @@ export default function AddTaskScreen() {
 
         <TouchableOpacity 
           style={[styles.saveButton, { backgroundColor: colors.primary }]}
-          onPress={saveTask}
+          onPress={handleSave}
           activeOpacity={0.8}
         >
           <Text style={styles.saveButtonText}>Kaydet</Text>

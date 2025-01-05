@@ -14,6 +14,7 @@ import {
   getTaskStatusForDate, 
   formatDate 
 } from '../../utils/taskUtils';
+import { cancelTaskNotifications } from '../../utils/notificationUtils';
 
 const STORAGE_KEY = '@routine_tasks';
 
@@ -109,6 +110,9 @@ export default function TabOneScreen() {
               const updatedTasks = tasks.filter(task => task.id !== taskId);
               setTasks(updatedTasks);
               await AsyncStorage.setItem(STORAGE_KEY, JSON.stringify(updatedTasks));
+              
+              // Bildirimleri iptal et
+              await cancelTaskNotifications(taskId);
             } catch (error) {
               Alert.alert('Hata', 'Görev silinirken bir hata oluştu.');
             }

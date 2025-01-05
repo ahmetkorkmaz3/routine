@@ -4,6 +4,7 @@ import { router, useLocalSearchParams } from 'expo-router';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { Task, FrequencyType } from '../types';
 import { useThemeColor } from '../hooks/useThemeColor';
+import { scheduleTaskNotification, cancelTaskNotifications } from '../utils/notificationUtils';
 
 const FREQUENCY_TYPES: FrequencyType[] = [
   { label: 'Gün', value: 'day' },
@@ -58,37 +59,39 @@ export default function EditTaskScreen() {
     }
   };
 
-  const saveTask = async () => {
+  const handleSave = async () => {
     if (!title.trim()) {
-      Alert.alert('Hata', 'Lütfen görev adını giriniz.');
+      Alert.alert('Hata', 'Lütfen görev başlığı girin.');
       return;
     }
 
-    const value = parseInt(frequencyValue, 10);
-    if (isNaN(value) || value < 1) {
-      Alert.alert('Hata', 'Lütfen geçerli bir sıklık değeri giriniz.');
+    if (!frequencyValue.trim() || parseInt(frequencyValue, 10) < 1) {
+      Alert.alert('Hata', 'Lütfen geçerli bir sıklık değeri girin.');
       return;
     }
 
     try {
-      const storedTasks = await AsyncStorage.getItem(STORAGE_KEY);
-      const currentTasks: Task[] = storedTasks ? JSON.parse(storedTasks) : [];
-      
-      const updatedTasks = currentTasks.map(task => {
-        if (task.id === taskId) {
-          return {
-            ...task,
-            title: title.trim(),
-            frequency: {
-              type: selectedType,
-              value: value,
-            },
-          };
-        }
-        return task;
-      });
+      const updatedTask: Task = {
+        ...task!,
+        title: title.trim(),
+        frequency: {
+          type: selectedType,
+          value: parseInt(frequencyValue, 10),
+        },
+      };
 
+      const existingTasks = await AsyncStorage.getItem(STORAGE_KEY);
+      const tasks = existingTasks ? JSON.parse(existingTasks) : [];
+      const updatedTasks = tasks.map((t: Task) => 
+        t.id === taskId ? updatedTask : t
+      );
+      
       await AsyncStorage.setItem(STORAGE_KEY, JSON.stringify(updatedTasks));
+      
+      // Eski bildirimleri iptal et ve yenilerini planla
+      await cancelTaskNotifications(taskId);
+      await scheduleTaskNotification(updatedTask);
+
       router.back();
     } catch (error) {
       Alert.alert('Hata', 'Görev güncellenirken bir hata oluştu.');
@@ -183,7 +186,7 @@ export default function EditTaskScreen() {
 
         <TouchableOpacity 
           style={[styles.saveButton, { backgroundColor: colors.primary }]}
-          onPress={saveTask}
+          onPress={handleSave}
           activeOpacity={0.8}
         >
           <Text style={styles.saveButtonText}>Kaydet</Text>

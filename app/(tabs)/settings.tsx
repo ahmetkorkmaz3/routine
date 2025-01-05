@@ -4,6 +4,8 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import { router } from 'expo-router';
 import { useColorScheme, ColorScheme } from '../../hooks/useColorScheme';
 import { useThemeColor } from '../../hooks/useThemeColor';
+import { NotificationPermission } from '../../components/NotificationPermission';
+import { cancelAllNotifications } from '../../utils/notificationUtils';
 
 const STORAGE_KEY = '@routine_tasks';
 
@@ -83,6 +85,7 @@ export default function SettingsScreen() {
           onPress: async () => {
             try {
               await AsyncStorage.clear();
+              await cancelAllNotifications();
               router.replace('/(tabs)');
             } catch (error) {
               Alert.alert('Hata', 'Veriler silinirken bir hata oluştu.');
@@ -128,6 +131,10 @@ export default function SettingsScreen() {
     <SafeAreaView style={[styles.safeArea, { backgroundColor: colors.background }]}>
       <View style={[styles.container, { backgroundColor: colors.background }]}>
         <ScrollView showsVerticalScrollIndicator={false}>
+          <SettingSection title="Bildirimler">
+            <NotificationPermission />
+          </SettingSection>
+
           <SettingSection title="Görünüm">
             <SettingItem
               title="Açık Tema"
@@ -146,19 +153,6 @@ export default function SettingsScreen() {
               description={theme === 'system' ? 'Seçili' : undefined}
               onPress={() => setColorScheme('system')}
               isSelected={theme === 'system'}
-            />
-          </SettingSection>
-
-          <SettingSection title="Bildirimler">
-            <SettingItem
-              title="Günlük Hatırlatmalar"
-              description="Her gün 20:00'de bildirim al"
-              onPress={() => Alert.alert('Bilgi', 'Bu özellik yakında eklenecek.')}
-            />
-            <SettingItem
-              title="Bildirim Sesi"
-              description="Varsayılan ses"
-              onPress={() => Alert.alert('Bilgi', 'Bu özellik yakında eklenecek.')}
             />
           </SettingSection>
 
