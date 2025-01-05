@@ -6,7 +6,12 @@ import { Task, FrequencyType } from '../types';
 import { useThemeColor } from '../hooks/useThemeColor';
 import { scheduleTaskNotification, cancelTaskNotifications } from '../utils/notificationUtils';
 
-const FREQUENCY_TYPES: FrequencyType[] = [
+interface FrequencyOption {
+  label: string;
+  value: FrequencyType;
+}
+
+const FREQUENCY_TYPES: FrequencyOption[] = [
   { label: 'Gün', value: 'day' },
   { label: 'Hafta', value: 'week' },
   { label: 'Ay', value: 'month' },
@@ -18,9 +23,10 @@ export default function EditTaskScreen() {
   const params = useLocalSearchParams();
   const taskId = typeof params.taskId === 'string' ? params.taskId : '';
   const [title, setTitle] = useState('');
-  const [selectedType, setSelectedType] = useState<FrequencyType['value']>('day');
+  const [selectedType, setSelectedType] = useState<FrequencyType>('day');
   const [frequencyValue, setFrequencyValue] = useState('1');
   const { colors } = useThemeColor();
+  const [task, setTask] = useState<Task | null>(null);
 
   useEffect(() => {
     if (taskId) {
@@ -33,11 +39,12 @@ export default function EditTaskScreen() {
       const storedTasks = await AsyncStorage.getItem(STORAGE_KEY);
       if (storedTasks) {
         const tasks: Task[] = JSON.parse(storedTasks);
-        const task = tasks.find(t => t.id === taskId);
-        if (task) {
-          setTitle(task.title);
-          setSelectedType(task.frequency.type);
-          setFrequencyValue(task.frequency.value.toString());
+        const foundTask = tasks.find(t => t.id === taskId);
+        if (foundTask) {
+          setTask(foundTask);
+          setTitle(foundTask.title);
+          setSelectedType(foundTask.frequency.type);
+          setFrequencyValue(foundTask.frequency.value.toString());
         }
       }
     } catch (error) {

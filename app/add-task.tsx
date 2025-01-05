@@ -6,7 +6,12 @@ import { Task, FrequencyType } from '../types';
 import { useThemeColor } from '../hooks/useThemeColor';
 import { scheduleTaskNotification } from '../utils/notificationUtils';
 
-const FREQUENCY_TYPES: FrequencyType[] = [
+interface FrequencyOption {
+  label: string;
+  value: FrequencyType;
+}
+
+const FREQUENCY_TYPES: FrequencyOption[] = [
   { label: 'Gün', value: 'day' },
   { label: 'Hafta', value: 'week' },
   { label: 'Ay', value: 'month' },
@@ -16,7 +21,7 @@ const STORAGE_KEY = '@routine_tasks';
 
 export default function AddTaskScreen() {
   const [title, setTitle] = useState('');
-  const [selectedType, setSelectedType] = useState<FrequencyType['value']>('day');
+  const [selectedType, setSelectedType] = useState<FrequencyType>('day');
   const [frequencyValue, setFrequencyValue] = useState('1');
   const { colors } = useThemeColor();
 
