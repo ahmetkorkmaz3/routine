@@ -1,50 +1,93 @@
-# Welcome to your Expo app 👋
+# Rutin Takip Uygulaması
 
-This is an [Expo](https://expo.dev) project created with [`create-expo-app`](https://www.npmjs.com/package/create-expo-app).
+Bu uygulama, günlük, haftalık veya aylık rutinlerinizi takip etmenize yardımcı olan bir mobil uygulamadır. React Native ve Expo ile geliştirilmiştir.
 
-## Get started
+## Özellikler
 
-1. Install dependencies
+- 📝 Görev oluşturma ve düzenleme
+- 🔄 Özelleştirilebilir görev sıklığı (günlük, haftalık, aylık)
+- ✅ Görev tamamlama durumu takibi
+- 📊 Geçmiş ve gelecek görev durumlarını görüntüleme
+- 🌓 Açık/koyu tema desteği
+- 💾 Yerel depolama ile veri saklama
+- 📱 Kullanıcı dostu arayüz
 
-   ```bash
-   npm install
-   ```
+## Teknolojiler
 
-2. Start the app
+- React Native
+- Expo
+- TypeScript
+- AsyncStorage
+- React Navigation
+- date-fns
+- React Native Gesture Handler
 
-   ```bash
-    npx expo start
-   ```
+## Başlangıç
 
-In the output, you'll find options to open the app in a
+### Gereksinimler
 
-- [development build](https://docs.expo.dev/develop/development-builds/introduction/)
-- [Android emulator](https://docs.expo.dev/workflow/android-studio-emulator/)
-- [iOS simulator](https://docs.expo.dev/workflow/ios-simulator/)
-- [Expo Go](https://expo.dev/go), a limited sandbox for trying out app development with Expo
+- Node.js (v14 veya üzeri)
+- npm veya yarn
+- Expo CLI
+- iOS için Xcode (sadece macOS)
+- Android için Android Studio
 
-You can start developing by editing the files inside the **app** directory. This project uses [file-based routing](https://docs.expo.dev/router/introduction).
+### Kurulum
 
-## Get a fresh project
+1. Projeyi klonlayın:
+\`\`\`bash
+git clone [repo-url]
+cd routine-app
+\`\`\`
 
-When you're ready, run:
+2. Bağımlılıkları yükleyin:
+\`\`\`bash
+npm install
+# veya
+yarn install
+\`\`\`
 
-```bash
-npm run reset-project
-```
+3. Uygulamayı başlatın:
+\`\`\`bash
+npx expo start
+\`\`\`
 
-This command will move the starter code to the **app-example** directory and create a blank **app** directory where you can start developing.
+## Kullanım
 
-## Learn more
+### Görev Ekleme
+1. Ana ekrandaki + butonuna tıklayın
+2. Görev adını girin
+3. Görev sıklığını seçin (gün, hafta, ay)
+4. Sıklık değerini girin
+5. Kaydet butonuna tıklayın
 
-To learn more about developing your project with Expo, look at the following resources:
+### Görev Tamamlama
+- İlgili tarihteki görev kutucuğuna tıklayarak görevi tamamlandı olarak işaretleyin
+- Tekrar tıklayarak tamamlanma durumunu geri alın
 
-- [Expo documentation](https://docs.expo.dev/): Learn fundamentals, or go into advanced topics with our [guides](https://docs.expo.dev/guides).
-- [Learn Expo tutorial](https://docs.expo.dev/tutorial/introduction/): Follow a step-by-step tutorial where you'll create a project that runs on Android, iOS, and the web.
+### Görev Düzenleme
+1. Görev kartındaki "Düzenle" butonuna tıklayın
+2. Gerekli değişiklikleri yapın
+3. Kaydet butonuna tıklayın
 
-## Join the community
+### Görev Silme
+- Görev kartını sola kaydırın ve "Sil" butonuna tıklayın
 
-Join our community of developers creating universal apps.
+### Tema Değiştirme
+1. Ayarlar sekmesine gidin
+2. "Görünüm" bölümünden istediğiniz temayı seçin:
+   - Açık Tema
+   - Koyu Tema
+   - Sistem Teması
 
-- [Expo on GitHub](https://github.com/expo/expo): View our open source platform and contribute.
-- [Discord community](https://chat.expo.dev): Chat with Expo users and ask questions.
+## Katkıda Bulunma
+
+1. Bu depoyu fork edin
+2. Yeni bir branch oluşturun (\`git checkout -b feature/amazing-feature\`)
+3. Değişikliklerinizi commit edin (\`git commit -m 'Add some amazing feature'\`)
+4. Branch'inizi push edin (\`git push origin feature/amazing-feature\`)
+5. Bir Pull Request oluşturun
+
+## Lisans
+
+Bu proje MIT lisansı altında lisanslanmıştır. Daha fazla bilgi için \`LICENSE\` dosyasına bakın.
