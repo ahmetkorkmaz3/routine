@@ -35,22 +35,22 @@ Bu uygulama, günlük, haftalık veya aylık rutinlerinizi takip etmenize yardı
 ### Kurulum
 
 1. Projeyi klonlayın:
-\`\`\`bash
+```bash
 git clone [repo-url]
 cd routine-app
-\`\`\`
+```
 
 2. Bağımlılıkları yükleyin:
-\`\`\`bash
+```bash
 npm install
 # veya
 yarn install
-\`\`\`
+```
 
 3. Uygulamayı başlatın:
-\`\`\`bash
+```bash
 npx expo start
-\`\`\`
+```
 
 ## Kullanım
 
