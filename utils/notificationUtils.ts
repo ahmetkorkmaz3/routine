@@ -26,13 +26,11 @@ export async function checkNotificationPermissions(): Promise<boolean> {
 export function configureNotifications() {
   // Bildirim ayarlarını yapılandır
   Notifications.setNotificationHandler({
-    handleNotification: async () => {
-      return {
-        shouldShowAlert: true,
-        shouldPlaySound: true,
-        shouldSetBadge: true,
-      };
-    },
+    handleNotification: async () => ({
+      shouldShowAlert: true,
+      shouldPlaySound: true,
+      shouldSetBadge: true,
+    }),
   });
 
   // Bildirim kanalını yapılandır (Android için)
@@ -86,10 +84,9 @@ export async function sendTestNotification(task: Task) {
           vibrate: [0, 250, 250, 250],
         }),
       },
-      // @ts-ignore
       trigger: {
         seconds: 1,
-      },
+      } as Notifications.NotificationTriggerInput,
     });
 
   } catch (error) {
@@ -123,12 +120,11 @@ export async function scheduleTaskNotification(task: Task) {
       sound: true,
       badge: 1,
     },
-    // @ts-ignore - Expo Notifications type definitions issue
     trigger: {
       hour: 9,
       minute: 0,
       repeats: true,
-    },
+    } as Notifications.NotificationTriggerInput,
   });
 
   return identifier;
