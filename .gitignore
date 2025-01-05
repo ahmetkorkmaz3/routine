@@ -2,12 +2,16 @@
 
 # dependencies
 node_modules/
+.pnp
+.pnp.js
+
+# Testing
+coverage/
 
 # Expo
 .expo/
 dist/
 web-build/
-expo-env.d.ts
 
 # Native
 *.orig.*
@@ -31,8 +35,21 @@ yarn-error.*
 
 # local env files
 .env*.local
+.env
 
 # typescript
 *.tsbuildinfo
+
+# IDE
+.idea/
+.vscode/
+*.swp
+*.swo
+
+# Temporary files
+*.log
+*.tmp
+tmp/
+temp/
 
 app-example
