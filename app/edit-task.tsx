@@ -111,20 +111,6 @@ export default function EditTaskScreen() {
       style={[styles.container, { backgroundColor: colors.background }]}
       keyboardVerticalOffset={Platform.OS === 'ios' ? 0 : 0}
     >
-      <View style={[styles.header, { 
-        backgroundColor: colors.background,
-        borderBottomColor: colors.border,
-      }]}>
-        <View style={[styles.headerHandle, { backgroundColor: colors.border }]} />
-        <Text style={[styles.headerTitle, { color: colors.textSecondary }]}>Görevi Düzenle</Text>
-        <TouchableOpacity 
-          style={[styles.closeButton, { backgroundColor: colors.disabled }]}
-          onPress={() => router.back()}
-        >
-          <Text style={[styles.closeButtonText, { color: colors.textSecondary }]}>×</Text>
-        </TouchableOpacity>
-      </View>
-
       <ScrollView 
         style={styles.scrollView}
         contentContainerStyle={styles.scrollContent}
