@@ -1,8 +1,6 @@
 import * as Notifications from 'expo-notifications';
 import { Platform } from 'react-native';
 import { Task } from '../types';
-import { format } from 'date-fns';
-import { tr } from 'date-fns/locale';
 
 // Bildirim izinlerini kontrol et
 export async function checkNotificationPermissions(): Promise<boolean> {
@@ -74,7 +72,7 @@ export async function sendTestNotification(task: Task) {
     configureNotifications();
 
     // Hemen bildirim gönder
-    const result = await Notifications.scheduleNotificationAsync({
+    await Notifications.scheduleNotificationAsync({
       content: {
         title: 'Test Bildirimi',
         body: `"${task.title}" görevi için test bildirimi`,
@@ -93,9 +91,6 @@ export async function sendTestNotification(task: Task) {
         seconds: 1,
       },
     });
-
-    // Mevcut bildirimleri kontrol et
-    const scheduledNotifications = await Notifications.getAllScheduledNotificationsAsync();
 
   } catch (error) {
     console.error('Bildirim gönderilirken hata:', error);
