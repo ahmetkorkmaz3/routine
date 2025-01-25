@@ -2,7 +2,6 @@ import React from 'react';
 import { View, Text, StyleSheet, TouchableOpacity, Alert, ScrollView, SafeAreaView } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { router } from 'expo-router';
-import { useColorScheme, ColorScheme } from '../../hooks/useColorScheme';
 import { useThemeColor } from '../../hooks/useThemeColor';
 import { NotificationPermission } from '../../components/NotificationPermission';
 import { cancelAllNotifications } from '../../utils/notificationUtils';
@@ -68,7 +67,6 @@ const SettingSection = ({ title, children }: { title: string; children: React.Re
 
 export default function SettingsScreen() {
   const { colors } = useThemeColor();
-  const { theme, setColorScheme } = useColorScheme();
 
   const resetAllData = async () => {
     Alert.alert(
@@ -114,46 +112,12 @@ export default function SettingsScreen() {
     Alert.alert('Bilgi', 'Bu özellik yakında eklenecek.');
   };
 
-  const getThemeDescription = (themeType: ColorScheme) => {
-    switch (themeType) {
-      case 'light':
-        return 'Açık tema kullanılıyor';
-      case 'dark':
-        return 'Koyu tema kullanılıyor';
-      case 'system':
-        return 'Sistem teması kullanılıyor';
-      default:
-        return '';
-    }
-  };
-
   return (
     <SafeAreaView style={[styles.safeArea, { backgroundColor: colors.background }]}>
       <View style={[styles.container, { backgroundColor: colors.background }]}>
         <ScrollView showsVerticalScrollIndicator={false}>
           <SettingSection title="Bildirimler">
             <NotificationPermission />
-          </SettingSection>
-
-          <SettingSection title="Görünüm">
-            <SettingItem
-              title="Açık Tema"
-              description={theme === 'light' ? 'Seçili' : undefined}
-              onPress={() => setColorScheme('light')}
-              isSelected={theme === 'light'}
-            />
-            <SettingItem
-              title="Koyu Tema"
-              description={theme === 'dark' ? 'Seçili' : undefined}
-              onPress={() => setColorScheme('dark')}
-              isSelected={theme === 'dark'}
-            />
-            <SettingItem
-              title="Sistem Teması"
-              description={theme === 'system' ? 'Seçili' : undefined}
-              onPress={() => setColorScheme('system')}
-              isSelected={theme === 'system'}
-            />
           </SettingSection>
 
           <SettingSection title="Veri Yönetimi">
